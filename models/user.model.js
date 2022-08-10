@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
+const { toJSON } = require('./plugins');
 
 const userSchema = new mongoose.Schema({
   email: {type: String, required: true, unique: true},
@@ -23,6 +24,8 @@ userSchema.pre('save', async function (next) {
   }
   next();
 });
+
+userSchema.plugin(toJSON);
 
 const model = mongoose.model('userSchema',userSchema)
 

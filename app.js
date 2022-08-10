@@ -2,11 +2,18 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const routes = require('./routes')
 const passport = require('passport');
+const config = require('./config/config')
 const { jwtStrategy } = require('./config/passport')
 const ApiError = require('./utils/ApiError.js')
 const httpStatus = require('http-status');
+const morgan = require('./config/morgan');
 
 const app = express()
+
+if (config.env !== 'test') {
+  app.use(morgan.successHandler);
+  app.use(morgan.errorHandler);
+}
 
 // parse json request body
 app.use(express.json());
