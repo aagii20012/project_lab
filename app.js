@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const routes = require('./routes')
+const passport = require('passport');
+const { jwtStrategy } = require('./config/passport')
 const ApiError = require('./utils/ApiError.js')
 const httpStatus = require('http-status');
 
@@ -11,6 +13,10 @@ app.use(express.json());
 
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
+
+// jwt authentication
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
 
 // v1 api routes
 app.use(routes);
