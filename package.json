@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=development nodemon src/index.js",
+    "test1": "nodemon index.js",
     "test": "jest -i --colors --verbose --detectOpenHandles",
-      "test:watch": "jest -i --watchAll",
-      "lint": "eslint .",
+    "test:watch": "jest -i --watchAll",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-      "prettier": "prettier --check **/*.js",
+    "prettier": "prettier --check **/*.js",
     "prettier:fix": "prettier --write **/*.js"
   },
   "keywords": [],
@@ -34,6 +35,7 @@
     "nodemon": "^2.0.19",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
+    "pg": "^8.7.3",
     "validator": "^13.7.0",
     "winston": "^3.8.1",
     "xss-clean": "^0.1.1"

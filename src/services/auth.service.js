@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
 const { User, Token } = require('../models');
-const tokenTypes = require('../config/tokens');
+const {tokenTypes} = require('../config/tokens');
+const tokenService = require('./token.service');
+const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
 
 const loginUserWithEmailAndPassword = async (email, password) => {
@@ -45,7 +47,7 @@ const createUser = async (userBody) => {
 };
 
 const getUserByEmail = async (email) => {
-  return User.findOne({ email });
+  return User.findOne({ email: email });
 };
 
 module.exports = {

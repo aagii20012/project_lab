@@ -13,11 +13,11 @@ router.post('/logout', validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 
 router.post('/test', async (req, res) => {
-  result = await Token.findOne({
-    token: req.body.refreshToken,
-    type: 'refresh',
-    blacklisted: false,
-  });
+  newUser = {
+    email: 'emaio@emai',
+    password: 'password1'
+  };
+  result = await expect(new User(newUser).validate()).rejects.toThrow();
   res.send(result);
 });
 
