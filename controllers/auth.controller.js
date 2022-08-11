@@ -26,8 +26,8 @@ const refreshTokens = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-    register,
-    login,
-    logout,
-    refreshTokens
-  };
+  register,
+  login,
+  logout,
+  refreshTokens,
+};

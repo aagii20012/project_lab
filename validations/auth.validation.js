@@ -1,17 +1,17 @@
 const Joi = require('joi');
 
 const register = {
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required()//.custom(password)
-    }),
-  };
-  
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(), // .custom(password)
+  }),
+};
+
 const login = {
-    body: Joi.object().keys({
-        email: Joi.string().required().email(),
-        password: Joi.string().required(),
-    }),
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
 };
 
 const logout = {
@@ -27,5 +27,8 @@ const refreshTokens = {
 };
 
 module.exports = {
-    register, login, logout, refreshTokens
-}
+  register,
+  login,
+  logout,
+  refreshTokens,
+};
