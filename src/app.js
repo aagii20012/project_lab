@@ -59,15 +59,15 @@ if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 
-if (config.env === 'development') {
-  db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and re-sync db.');
-  });
-}
+// if (config.env === 'development') {
+//   db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and re-sync db.');
+//   });
+// }
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+  next(new ApiError(httpStatus.NOT_FOUND, 'Page not found'));
 });
 
 // convert error to ApiError, if needed

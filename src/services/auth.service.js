@@ -1,17 +1,22 @@
 const httpStatus = require('http-status');
 const { User, Token } = require('../models');
-const {tokenTypes} = require('../config/tokens');
+const { tokenTypes } = require('../config/tokens');
 const tokenService = require('./token.service');
 const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
+const bcrypt = require('bcryptjs');
 
 const loginUserWithEmailAndPassword = async (email, password) => {
   const user = await getUserByEmail(email);
-  if (!user || !(await user.isPasswordMatch(password))) {
+  if (!user || !isPasswordMatch(password, user.password)) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
   }
   return user;
 };
+
+function isPasswordMatch(password, enc_pass) {
+  return bcrypt.compareSync(password, enc_pass);
+}
 
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({
@@ -22,7 +27,7 @@ const logout = async (refreshToken) => {
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
-  await refreshTokenDoc.remove();
+  await refreshTokenDoc.destroy();
 };
 
 const refreshAuth = async (refreshToken) => {
@@ -32,7 +37,7 @@ const refreshAuth = async (refreshToken) => {
     if (!user) {
       throw new Error();
     }
-    await refreshTokenDoc.remove();
+    await refreshTokenDoc.destroy();
     return tokenService.generateAuthTokens(user);
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
@@ -40,10 +45,14 @@ const refreshAuth = async (refreshToken) => {
 };
 
 const createUser = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
-  return User.create(userBody);
+  var error = false;
+  await User.findOne({ email: userBody.email }).then((user) => {
+    error = true;
+    if (user) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+    }
+  });
+  return await User.create(userBody);
 };
 
 const getUserByEmail = async (email) => {

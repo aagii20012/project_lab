@@ -14,18 +14,4 @@ router.post('/login', validate(authValidation.login), authController.login);
 router.post('/logout', validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 
-router.get(
-  '/test',
-  catchAsync(async (req, res) => {
-    newUser = {
-      firstname: '123',
-      lastname: '123',
-      email: 'email@email.com',
-      password: 'password1',
-    };
-    const jane = await User.create(newUser);
-    res.send(jane);
-  })
-);
-
 module.exports = router;
