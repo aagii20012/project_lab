@@ -1,7 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
 const xss = require('xss-clean');
-const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
@@ -15,6 +14,15 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
 const app = express();
+const { db } = require('./models/index');
+db.sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Synced db.');
+  })
+  .catch((err) => {
+    console.log('Failed to sync db: ' + err.message);
+  });
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -32,7 +40,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
-app.use(mongoSanitize());
 
 // gzip compression
 app.use(compression());
@@ -50,6 +57,12 @@ app.use(routes);
 
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
+}
+
+if (config.env === 'development') {
+  db.sequelize.sync({ force: true }).then(() => {
+    console.log('Drop and re-sync db.');
+  });
 }
 
 // send back a 404 error for any unknown api request

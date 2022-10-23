@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
@@ -7,11 +6,8 @@ const port = 3000;
 
 let server;
 
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-  });
+server = app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
 
 const exitHandler = () => {

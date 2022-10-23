@@ -8,7 +8,6 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
-    MONGODB_URL: Joi.string().required().description('Mongo DB url'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number().default(30).description('days after which refresh tokens expire'),
@@ -31,15 +30,22 @@ const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' }
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
-
+console.log(envVars.POOL_MIN);
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
-  mongoose: {
-    url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
-    options: {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+  pg: {
+    HOST: envVars.PG_ADMIN_HOST,
+    USER: envVars.PG_ADMIN_USER,
+    PASSWORD: envVars.PG_ADMIN_PASSWORD,
+    DB: envVars.PG_ADMIN_DATABASE,
+    port: envVars.PG_ADMIN_PORT,
+    dialect: envVars.PG_ADMIN_DIALECT,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: envVars.POOL_ACQUIRE,
+      idle: envVars.IDLE,
     },
   },
   jwt: {
