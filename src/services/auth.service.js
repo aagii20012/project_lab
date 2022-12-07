@@ -45,9 +45,7 @@ const refreshAuth = async (refreshToken) => {
 };
 
 const createUser = async (userBody) => {
-  var error = false;
-  await User.findOne({ email: userBody.email }).then((user) => {
-    error = true;
+  await User.findOne({ where: { email: userBody.email } }).then((user) => {
     if (user) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
     }

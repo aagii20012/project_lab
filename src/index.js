@@ -2,7 +2,7 @@ const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-const port = 3000;
+const port = 8000;
 
 let server;
 
