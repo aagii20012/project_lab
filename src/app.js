@@ -14,7 +14,7 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
 const app = express();
-const { db } = require('./models/index');
+const { db, User, Goal } = require('./models/index');
 db.sequelize
   .authenticate()
   .then(() => {

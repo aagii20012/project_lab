@@ -21,4 +21,6 @@ db.sequelize = sequelize;
 
 module.exports.User = require('./user.model')(sequelize, Sequelize);
 module.exports.Token = require('./token.model')(sequelize, Sequelize);
+module.exports.Goal = require('./goal.model')(sequelize, Sequelize);
+module.exports.Todo = require('./todo.model')(sequelize, Sequelize);
 module.exports.db = db;
