@@ -30,7 +30,7 @@ const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' }
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
-console.log(envVars.POOL_MIN);
+
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,

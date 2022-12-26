@@ -4,7 +4,8 @@ const goalRoute = require('./goal.routes');
 const authRoute = require('./auth.routes');
 const userRoute = require('./user.routes');
 const todoRoute = require('./todo.routes');
-
+const goalStepRoute = require('./goalStep.routes');
+const testRoute = require('./test.routes');
 const router = express.Router();
 
 const defaultRoutes = [
@@ -23,6 +24,14 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/',
+    route: goalStepRoute,
+  },
+  {
+    path: '/',
+    route: testRoute,
   },
 ];
 

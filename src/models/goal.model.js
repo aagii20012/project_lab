@@ -33,6 +33,11 @@ const Goal = (sequelize, Sequelize) => {
           },
         },
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'new',
+      },
       description: {
         type: Sequelize.STRING,
       },

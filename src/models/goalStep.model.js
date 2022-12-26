@@ -1,11 +1,6 @@
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const { toJSON } = require('./plugins');
-const { roles } = require('../config/roles');
-
-const Todo = (sequelize, Sequelize) => {
-  const Todo = sequelize.define(
-    'TodoData',
+const Step = (sequelize, Sequelize) => {
+  const Step = sequelize.define(
+    'StepData',
     {
       id: {
         type: Sequelize.INTEGER,
@@ -20,19 +15,27 @@ const Todo = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      dou: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       status: {
         type: Sequelize.STRING,
         allowNull: false,
         defaultValue: 'new',
       },
-      dou: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
-      user: {
+      progress: {
         type: Sequelize.INTEGER,
-        ref: 'User',
+        allowNull: true,
+      },
+      isRepeatable: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      goal: {
+        type: Sequelize.INTEGER,
+        ref: 'GoalData',
         required: true,
         allowNull: false,
       },
@@ -41,7 +44,7 @@ const Todo = (sequelize, Sequelize) => {
       timestamps: true,
     }
   );
-  return Todo;
+  return Step;
 };
 
-module.exports = Todo;
+module.exports = Step;
