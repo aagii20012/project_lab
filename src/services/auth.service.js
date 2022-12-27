@@ -5,6 +5,7 @@ const tokenService = require('./token.service');
 const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
 const loginUserWithEmailAndPassword = async (email, password) => {
   const user = await getUserByEmail(email);
@@ -54,7 +55,12 @@ const createUser = async (userBody) => {
 };
 
 const getUserByEmail = async (email) => {
-  return User.findOne({ email: email });
+  return User.findOne({
+    where: {
+      email: email,
+    },
+    raw: true,
+  });
 };
 
 module.exports = {

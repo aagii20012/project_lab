@@ -11,5 +11,6 @@ router.put('/Goal', auth(), goalController.updateProgress);
 router.get('/Goal/:id', auth(), goalController.getGoal);
 router.post('/Goal/Names', auth(), goalController.getGoalOnlyNames);
 router.get('/Goal/:id/Progress', auth(), goalController.getGoalProgress);
+router.delete('/Goal/:id', auth(), goalController.deleteProgress);
 
 module.exports = router;

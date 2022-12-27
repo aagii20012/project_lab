@@ -98,12 +98,15 @@ const updateGoalById = async (updateBody, userId) => {
   return goal;
 };
 
-const deleteGoalById = async (goalId) => {
+const deleteGoalById = async (goalId, userId) => {
   const goal = await getGoalById(goalId);
   if (!goal) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Goal not found');
   }
-  await Goal.remove();
+  if (goal.user != userId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Goal not found');
+  }
+  await goal.destroy();
   return goal;
 };
 

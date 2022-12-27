@@ -57,6 +57,14 @@ const updateProgress = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ goal });
 });
 
+const deleteProgress = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const token = getToken(req);
+  const userId = await profleService.getUserByToken(token);
+  const goal = await goalService.deleteGoalById(id, userId);
+  res.status(httpStatus.OK).send({ goal });
+});
+
 module.exports = {
   setGoal,
   getAllGoal,
@@ -64,4 +72,5 @@ module.exports = {
   getGoal,
   getGoalOnlyNames,
   getGoalProgress,
+  deleteProgress,
 };
