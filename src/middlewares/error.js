@@ -11,8 +11,13 @@ const errorConverter = (err, req, res, next) => {
     const statusCode =
       error.statusCode || error instanceof Sequelize.Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
     let message;
-    if (error instanceof Sequelize.Error) message = error.errors[0].message;
-    else message = error.message || httpStatus[statusCode];
+    if (error instanceof Sequelize.Error) {
+      if (error.errors?.length > 0) {
+        message = error.errors[0].message;
+      } else {
+        message = error.message;
+      }
+    } else message = error.message || httpStatus[statusCode];
     error = new ApiError(statusCode, message, false, err.stack);
   }
   next(error);
